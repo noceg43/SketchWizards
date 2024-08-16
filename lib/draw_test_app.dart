@@ -4,14 +4,14 @@ import 'package:sketch_wizards/features/draw/data/canvas_state.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
 import 'package:sketch_wizards/features/draw/widgets/widget_canvas.dart';
 
-class SketchWizardsApp extends StatefulWidget {
-  const SketchWizardsApp({super.key});
+class DrawTestApp extends StatefulWidget {
+  const DrawTestApp({super.key});
 
   @override
-  State<SketchWizardsApp> createState() => _SketchWizardsAppState();
+  State<DrawTestApp> createState() => _DrawTestAppState();
 }
 
-class _SketchWizardsAppState extends State<SketchWizardsApp> {
+class _DrawTestAppState extends State<DrawTestApp> {
   GlobalKey canvasKey = GlobalKey();
 
   late CanvasController controller = CanvasController(canvasKey: canvasKey);
