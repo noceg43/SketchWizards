@@ -1,9 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:sketch_wizards/common/service_locator/service_locator.dart';
 import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_field.dart';
+import 'package:sketch_wizards/features/start_game/constants/game_settings.dart';
+import 'package:sketch_wizards/features/start_game/logic/sw_game_service.dart';
+import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
+import 'package:sketch_wizards/sw_router.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWHome extends StatefulWidget {
   const SWHome({super.key});
@@ -13,77 +21,121 @@ class SWHome extends StatefulWidget {
 }
 
 class _SWHomeState extends State<SWHome> {
-  //TODO logic for home screen
+  final swGameProvider = getIt.get<SWGameService>();
+
   final TextEditingController controller = TextEditingController();
 
-  void onAddPressed() {
-    print('Add pressed');
+  bool get textFieldFilled =>
+      controller.text.isNotEmpty && controller.text != ' ';
+
+  void onAddPlayerPressed() {
+    if (textFieldFilled) {
+      int newId = swGameProvider.game.players.isNotEmpty
+          ? [for (final player in swGameProvider.game.players) player.id]
+                  .reduce(max) +
+              1
+          : 1;
+
+      swGameProvider.addPlayer(
+        SWPlayer(
+          id: newId,
+          name: controller.text,
+        ),
+      );
+      controller.clear();
+    }
   }
 
-  void onStartGamePressed() {
-    print('Start Game pressed');
-  }
+  void onStartGamePressed() =>
+      Navigator.pushNamed(context, SketchWizardsRoutes.gameOptions.route);
 
   @override
   Widget build(BuildContext context) {
-    return SWScaffold(
-      title: 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet',
-      bottomWidget: Center(
-        child: SWTextButton(
-          text: 'Start Game',
-          onPressed: onStartGamePressed,
-        ),
-      ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: SizedBox(
-            width: 800,
-            child: Row(
-              children: [
-                Expanded(
-                  child: SWTextField(
-                    controller: controller,
-                    hintText: 'Enter here the player name',
-                  ),
+    return ListenableBuilder(
+      listenable: swGameProvider,
+      builder: (context, _) {
+        String title = (swGameProvider.game.players.isEmpty)
+            ? 'Hi there! Let\'s play Sketch Wizards!, Add just one player to start'
+            : (swGameProvider.game.players.length == 1)
+                ? 'Hi ${swGameProvider.game.players.first.name}! Are you ready to play?'
+                : (swGameProvider.game.players.length ==
+                        GameSettingsConstants.maxPlayers)
+                    ? 'We are full! Press Start Game to begin'
+                    : 'Hi ${swGameProvider.game.players.last.name} and ${swGameProvider.game.players.length - 1} more, let\'s play Sketch Wizards!';
+
+        return SWScaffold(
+          title: title,
+          bottomWidget: Center(
+            child: SWTextButton(
+              text: 'Start Game',
+              onPressed: onStartGamePressed,
+              enabled: swGameProvider.game.players.isNotEmpty,
+            ),
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: SizedBox(
+                width: 800,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SWTextField(
+                        controller: controller,
+                        hintText: 'Enter here the player name',
+                        onDone: onAddPlayerPressed,
+                        enabled: swGameProvider.game.players.length <
+                            GameSettingsConstants.maxPlayers,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    SWIconButton(
+                      icon: Icons.add,
+                      onPressed: onAddPlayerPressed,
+                      enabled: swGameProvider.game.players.length <
+                          GameSettingsConstants.maxPlayers,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 20),
-                SWIconButton(icon: Icons.add, onPressed: onAddPressed),
-              ],
-            ),
-          ),
-        ),
-        /*
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: FittedBox(
-            child: Text(
-              "Sketch Wizards",
-              style: TextStyle(
-                fontSize: 1000,
-                color: SWTheme.primaryColor,
               ),
             ),
-          ),
-        ),
-        */
-        const SizedBox(height: 50),
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 100,
-          children: List.generate(
-            8,
-            (index) => Padding(
-              padding: const EdgeInsets.all(10),
-              child: PlayerWidget(
-                text:
-                    [for (int i = 0; i < index; i++) 'Player $index'].join(' '),
-                onDelete: () => print('Delete pressed'),
+            const SizedBox(height: 50),
+            AnimatedSwitcher(
+              duration: const Duration(
+                milliseconds: 300,
               ),
+              child: swGameProvider.game.players.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      child: FittedBox(
+                        child: Text(
+                          "Sketch Wizards",
+                          style: TextStyle(
+                            fontSize: 1000,
+                            color: SWTheme.primaryColor,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 100,
+                        runSpacing: 50,
+                        children: [
+                          for (final player in swGameProvider.game.players)
+                            PlayerWidget(
+                              text: player.name,
+                              onDelete: () =>
+                                  swGameProvider.removePlayer(player),
+                            ),
+                        ],
+                      ),
+                    ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

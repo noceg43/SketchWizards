@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//TODO move theme of widgets into the widget itself
 class SWTheme {
   static const Color primaryColor = Color(0xffF6AE2D);
   static const Color backgroundColor = Color(0xff525390);
@@ -28,10 +29,19 @@ class SWTheme {
       style: ButtonStyle(
         splashFactory: NoSplash.splashFactory,
         backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+        shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.focused) ||
+                states.contains(MaterialState.hovered)) {
+              return RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: const BorderSide(color: Colors.white, width: 5),
+              );
+            }
+            return RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            );
+          },
         ),
       ),
     ),

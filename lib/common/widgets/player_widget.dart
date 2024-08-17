@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class PlayerWidget extends StatelessWidget {
   const PlayerWidget({super.key, required this.text, this.onDelete});
@@ -38,7 +38,7 @@ class PlayerWidget extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.bottomLeft,
+            alignment: Alignment.bottomCenter,
             child: playerWidget,
           ),
           if (onDelete != null)

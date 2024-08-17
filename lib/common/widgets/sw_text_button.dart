@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWTextButton extends StatelessWidget {
   const SWTextButton(

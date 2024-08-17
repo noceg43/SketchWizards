@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWScaffold extends StatelessWidget {
   const SWScaffold({
@@ -43,9 +43,22 @@ class SWScaffold extends StatelessWidget {
           title: title != null
               ? Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: Text(
-                    title!,
-                    style: SWTheme.regularTextStyle,
+                  child: AnimatedSwitcher(
+                    transitionBuilder: (child, animation) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, -10),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
+                    },
+                    duration: const Duration(milliseconds: 300),
+                    child: Text(
+                      title!,
+                      key: ValueKey(title),
+                      style: SWTheme.regularTextStyle,
+                    ),
                   ),
                 )
               : null,

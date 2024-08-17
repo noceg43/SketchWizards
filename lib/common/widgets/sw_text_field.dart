@@ -1,49 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
-class SWTextField extends StatelessWidget {
+class SWTextField extends StatefulWidget {
+  final TextEditingController controller;
+  final VoidCallback onDone;
+  final bool enabled;
+  final int maxLength;
+  final String hintText;
+
   const SWTextField({
     super.key,
     required this.controller,
-    this.hintText,
-    this.enabled = true,
-    this.onDone,
+    required this.onDone,
+    required this.enabled,
+    this.maxLength = 20,
+    required this.hintText,
   });
 
-  final TextEditingController controller;
-  final String? hintText;
-  final bool enabled;
-  final VoidCallback? onDone;
+  @override
+  SWTextFieldState createState() => SWTextFieldState();
+}
+
+class SWTextFieldState extends State<SWTextField> {
+  bool _isHovered = false;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onEditingComplete: onDone,
-      enabled: enabled,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(20),
-        hintText: hintText,
-        hintStyle: SWTheme.regularTextStyle.copyWith(
-            color: SWTheme.textColor.withOpacity(SWTheme.notEnabledOpacity)),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.amber, width: 4),
-          borderRadius: BorderRadius.circular(12),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: TextField(
+        controller: widget.controller,
+        onEditingComplete: widget.onDone,
+        enabled: widget.enabled,
+        maxLength: widget.maxLength,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          counterText: "",
+          contentPadding: const EdgeInsets.all(20),
+          hintText: widget.hintText,
+          hintStyle: SWTheme.regularTextStyle.copyWith(
+              color: SWTheme.textColor.withOpacity(SWTheme.notEnabledOpacity)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: _isHovered ? Colors.white : SWTheme.textColor, width: 4),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: _isHovered ? Colors.white : SWTheme.primaryColor,
+                width: 4),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          enabled: true,
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: SWTheme.textColor.withOpacity(SWTheme.notEnabledOpacity),
+                width: 4),
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: SWTheme.textColor, width: 4),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        enabled: true,
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: SWTheme.textColor.withOpacity(SWTheme.notEnabledOpacity),
-              width: 4),
-          borderRadius: BorderRadius.circular(12),
-        ),
+        cursorColor: SWTheme.textColor,
+        style: SWTheme.regularTextStyle,
       ),
-      cursorColor: SWTheme.textColor,
-      style: SWTheme.regularTextStyle,
     );
   }
 }

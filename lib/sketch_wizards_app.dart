@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
 import 'package:sketch_wizards/sw_router.dart';
 

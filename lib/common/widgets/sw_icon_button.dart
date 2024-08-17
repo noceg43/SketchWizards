@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sketch_wizards/constants/sw_theme.dart';
+import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWIconButton extends StatelessWidget {
   const SWIconButton({
@@ -28,8 +28,16 @@ class SWIconButton extends StatelessWidget {
         child: TextButton(
           onPressed: enabled ? onPressed : null,
           style: ButtonStyle(
-              shape: MaterialStateProperty.all<CircleBorder>(
-                const CircleBorder(),
+              shape: MaterialStateProperty.resolveWith<CircleBorder>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.focused) ||
+                      states.contains(MaterialState.hovered)) {
+                    return const CircleBorder(
+                      side: BorderSide(color: Colors.white, width: 5),
+                    );
+                  }
+                  return const CircleBorder();
+                },
               ),
               backgroundColor: MaterialStateProperty.all<Color?>(
                 backgroundColor,
