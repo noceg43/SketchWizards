@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sketch_wizards/common/service_locator/service_locator.dart';
-import 'package:sketch_wizards/sketch_wizards_app.dart';
+import 'package:sketch_wizards/draw_test_app.dart';
 
 //TODO localization
-void main() {
-  setupLocator();
+void main() async {
+  await setupLocator();
 
-  runApp(const SketchWizardsApp());
+  runApp(const DrawTestApp());
 }

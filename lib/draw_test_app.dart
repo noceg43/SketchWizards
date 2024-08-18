@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ml_dart_wizard/wizard.dart';
 import 'package:sketch_wizards/features/draw/constants.dart';
 import 'package:sketch_wizards/features/draw/data/canvas_state.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
 import 'package:sketch_wizards/features/draw/widgets/widget_canvas.dart';
+import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
 
 class DrawTestApp extends StatefulWidget {
   const DrawTestApp({super.key});
@@ -17,6 +20,23 @@ class _DrawTestAppState extends State<DrawTestApp> {
   late CanvasController controller = CanvasController(canvasKey: canvasKey);
 
   Duration interval = const Duration(seconds: 1);
+
+  late Stream<CanvasState> asStream = controller.asStream(
+    interval,
+    canvasKey,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    Wizard wizard = GetIt.instance.get<Wizard>();
+    asStream.listen((event) async {
+      if (event is DrawCanvas) {
+        var result = await wizard.guess(event.imageBytes);
+        print(result);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +70,9 @@ class _DrawTestAppState extends State<DrawTestApp> {
                         const SizedBox(height: 20),
 
                         // Image display
+                        /*
                         StreamBuilder(
-                          stream: controller.asStream(
-                            interval,
-                            canvasKey,
-                          ),
+                          stream: asStream,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               final CanvasState state =
@@ -63,6 +81,9 @@ class _DrawTestAppState extends State<DrawTestApp> {
                                 return _ImageFromDrawCanvas(canvasState: state);
                               }
                             }
+
+                            return const SizedBox.shrink();
+                           
                             return SizedBox(
                               height: canvasSize.height,
                               width: canvasSize.width,
@@ -70,8 +91,10 @@ class _DrawTestAppState extends State<DrawTestApp> {
                                 child: CircularProgressIndicator(),
                               ),
                             );
+                            
                           },
                         )
+                        */
                       ],
                     ),
                   ),
