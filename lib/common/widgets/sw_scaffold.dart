@@ -9,6 +9,7 @@ class SWScaffold extends StatelessWidget {
     this.action,
     this.showBackButton = false,
     this.bottomWidget,
+    this.scrollable = true,
     required this.children,
   });
 
@@ -20,6 +21,8 @@ class SWScaffold extends StatelessWidget {
   final List<Widget> children;
 
   final Widget? bottomWidget;
+
+  final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
@@ -74,23 +77,39 @@ class SWScaffold extends StatelessWidget {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: children,
-                    ),
+            child: (!scrollable)
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ...children,
+                      if (bottomWidget != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 50),
+                          child: bottomWidget!,
+                        ),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                          child: CustomScrollView(
+                        slivers: [
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Column(
+                              children: children,
+                            ),
+                          ),
+                        ],
+                      )),
+                      if (bottomWidget != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 50),
+                          child: bottomWidget!,
+                        ),
+                    ],
                   ),
-                ),
-                if (bottomWidget != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 50),
-                    child: bottomWidget!,
-                  ),
-              ],
-            ),
           ),
         ),
       ),

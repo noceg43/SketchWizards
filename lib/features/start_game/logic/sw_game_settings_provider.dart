@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:sketch_wizards/features/start_game/constants/game_settings.dart';
-import 'package:sketch_wizards/features/start_game/models/sw_game.dart';
+import 'package:sketch_wizards/features/start_game/models/sw_game_settings.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 
-class SWGameService extends ChangeNotifier {
-  SWGame _game;
+class SWGameSettingsProvider extends ChangeNotifier {
+  SWGameSettings _game;
 
   // default constructor with initial game state
-  SWGameService()
-      : _game = SWGame(
+  SWGameSettingsProvider()
+      : _game = SWGameSettings(
           players: [],
           roundNumber: GameSettingsConstants.defaultRoundNumber,
           roundDuration: GameSettingsConstants.defaultRoundDuration,
         );
 
-  SWGame get game => _game;
+  SWGameSettings get game => _game;
 
   void addPlayer(SWPlayer player) {
     _game = _game.copyWith(players: [..._game.players, player]);

@@ -4,8 +4,10 @@ import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
+import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
 import 'package:sketch_wizards/features/start_game/constants/game_settings.dart';
-import 'package:sketch_wizards/features/start_game/logic/sw_game_service.dart';
+import 'package:sketch_wizards/features/start_game/logic/sw_game_settings_provider.dart';
+import 'package:sketch_wizards/sw_router.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWGameOptions extends StatefulWidget {
@@ -18,7 +20,7 @@ class SWGameOptions extends StatefulWidget {
 class _SWGameOptionsState extends State<SWGameOptions> {
   @override
   Widget build(BuildContext context) {
-    final swGameProvider = getIt.get<SWGameService>();
+    final swGameProvider = getIt.get<SWGameSettingsProvider>();
 
     final ValueNotifier<double> roundDuration = ValueNotifier(
         GameSettingsConstants.roundDurations
@@ -40,7 +42,11 @@ class _SWGameOptionsState extends State<SWGameOptions> {
       swGameProvider.updateRoundNumber(value.toInt());
     }
 
-    void onStartGamePressed() {}
+    void onStartGamePressed() {
+      final swGameServiceProvider = getIt.get<SWGameServiceProvider>();
+      swGameServiceProvider.initGame(swGameProvider.game);
+      Navigator.pushNamed(context, SketchWizardsRoutes.roundIntro.route);
+    }
 
     return SWScaffold(
       showBackButton: true,

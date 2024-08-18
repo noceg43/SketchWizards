@@ -70,4 +70,10 @@ class SWTheme {
         fontSize: 40,
         fontWeight: FontWeight.w400,
       );
+
+  static TextStyle get boldTextStyle => const TextStyle(
+        color: textColor,
+        fontSize: 40,
+        fontWeight: FontWeight.w700,
+      );
 }

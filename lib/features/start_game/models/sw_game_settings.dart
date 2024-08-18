@@ -2,22 +2,22 @@ import 'package:flutter/foundation.dart';
 
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 
-class SWGame {
+class SWGameSettings {
   final List<SWPlayer> players;
   final int roundNumber;
   final Duration roundDuration;
-  SWGame({
+  SWGameSettings({
     required this.players,
     required this.roundNumber,
     required this.roundDuration,
   });
 
-  SWGame copyWith({
+  SWGameSettings copyWith({
     List<SWPlayer>? players,
     int? roundNumber,
     Duration? roundDuration,
   }) {
-    return SWGame(
+    return SWGameSettings(
       players: players ?? this.players,
       roundNumber: roundNumber ?? this.roundNumber,
       roundDuration: roundDuration ?? this.roundDuration,
@@ -26,10 +26,10 @@ class SWGame {
 
   @override
   String toString() =>
-      'SWGame(players: $players, roundNumber: $roundNumber, roundDuration: $roundDuration)';
+      'SWGameSettings(players: $players, roundNumber: $roundNumber, roundDuration: $roundDuration)';
 
   @override
-  bool operator ==(covariant SWGame other) {
+  bool operator ==(covariant SWGameSettings other) {
     if (identical(this, other)) return true;
 
     return listEquals(other.players, players) &&

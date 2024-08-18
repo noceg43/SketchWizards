@@ -1,3 +1,3 @@
 import 'dart:ui';
 
-const Size canvasSize = Size(300, 300);
+const Size canvasSize = Size(64, 64);

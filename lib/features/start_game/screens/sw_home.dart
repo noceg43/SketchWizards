@@ -8,7 +8,7 @@ import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_field.dart';
 import 'package:sketch_wizards/features/start_game/constants/game_settings.dart';
-import 'package:sketch_wizards/features/start_game/logic/sw_game_service.dart';
+import 'package:sketch_wizards/features/start_game/logic/sw_game_settings_provider.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 import 'package:sketch_wizards/sw_router.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
@@ -21,7 +21,7 @@ class SWHome extends StatefulWidget {
 }
 
 class _SWHomeState extends State<SWHome> {
-  final swGameProvider = getIt.get<SWGameService>();
+  final swGameProvider = getIt.get<SWGameSettingsProvider>();
 
   final TextEditingController controller = TextEditingController();
 
@@ -64,6 +64,7 @@ class _SWHomeState extends State<SWHome> {
                     : 'Hi ${swGameProvider.game.players.last.name} and ${swGameProvider.game.players.length - 1} more, let\'s play Sketch Wizards!';
 
         return SWScaffold(
+          
           title: title,
           bottomWidget: Center(
             child: SWTextButton(
@@ -107,13 +108,11 @@ class _SWHomeState extends State<SWHome> {
               child: swGameProvider.game.players.isEmpty
                   ? const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40),
-                      child: FittedBox(
-                        child: Text(
-                          "Sketch Wizards",
-                          style: TextStyle(
-                            fontSize: 1000,
-                            color: SWTheme.primaryColor,
-                          ),
+                      child: Text(
+                        "Sketch Wizards",
+                        style: TextStyle(
+                          fontSize: 250,
+                          color: SWTheme.primaryColor,
                         ),
                       ),
                     )
