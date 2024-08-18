@@ -25,8 +25,7 @@ class _SWHomeState extends State<SWHome> {
 
   final TextEditingController controller = TextEditingController();
 
-  bool get textFieldFilled =>
-      controller.text.isNotEmpty && controller.text != ' ';
+  bool get textFieldFilled => controller.text.replaceAll(' ', '').isNotEmpty;
 
   void onAddPlayerPressed() {
     if (textFieldFilled) {
@@ -64,7 +63,6 @@ class _SWHomeState extends State<SWHome> {
                     : 'Hi ${swGameProvider.game.players.last.name} and ${swGameProvider.game.players.length - 1} more, let\'s play Sketch Wizards!';
 
         return SWScaffold(
-          
           title: title,
           bottomWidget: Center(
             child: SWTextButton(

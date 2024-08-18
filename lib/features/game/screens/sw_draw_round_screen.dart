@@ -37,8 +37,16 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
         'isCorrect': isCorrect,
         'onScreenClose': (BuildContext context) {
           if (gameServiceProvider.isCurrentRoundFinished) {
-            Navigator.of(context)
-                .pushNamed(SketchWizardsRoutes.roundChart.route);
+            bool isLastRound = gameServiceProvider.currentRoundNumber ==
+                gameServiceProvider.game.rounds.length - 1;
+            // end game if the last round
+            if (isLastRound) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  SketchWizardsRoutes.finalChart.route, (route) => false);
+            } else {
+              Navigator.of(context)
+                  .pushNamed(SketchWizardsRoutes.roundChart.route);
+            }
           } else {
             gameServiceProvider.nextPlayer();
 
@@ -89,19 +97,20 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: Placeholder(
-                          color: SWTheme.textColor,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SWTextButton(
-                                  text: "Guessed",
-                                  onPressed: () => goToNewScreen(true)),
-                              const SizedBox(height: 20),
-                              SWTextButton(
-                                  text: "Failed",
-                                  onPressed: () => goToNewScreen(false)),
-                            ],
-                          )),
+                        color: SWTheme.textColor,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SWTextButton(
+                                text: "Guessed",
+                                onPressed: () => goToNewScreen(true)),
+                            const SizedBox(height: 20),
+                            SWTextButton(
+                                text: "Failed",
+                                onPressed: () => goToNewScreen(false)),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

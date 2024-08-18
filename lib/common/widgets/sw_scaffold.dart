@@ -3,26 +3,51 @@ import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWScaffold extends StatelessWidget {
-  const SWScaffold({
+  SWScaffold({
     super.key,
     this.title,
     this.action,
     this.showBackButton = false,
     this.bottomWidget,
     this.scrollable = true,
+    this.showFloatingActionButton = false,
     required this.children,
   });
 
   final String? title;
-
   final Widget? action;
   final bool showBackButton;
-
   final List<Widget> children;
-
   final Widget? bottomWidget;
-
   final bool scrollable;
+  final bool showFloatingActionButton;
+
+  final ScrollController _scrollController = ScrollController();
+  final double _scrollStep = 200.0; // Define the scroll step
+
+  void _scrollUp() {
+    final newOffset = (_scrollController.offset - _scrollStep).clamp(
+      _scrollController.position.minScrollExtent,
+      _scrollController.position.maxScrollExtent,
+    );
+    _scrollController.animateTo(
+      newOffset,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInQuad,
+    );
+  }
+
+  void _scrollDown() {
+    final newOffset = (_scrollController.offset + _scrollStep).clamp(
+      _scrollController.position.minScrollExtent,
+      _scrollController.position.maxScrollExtent,
+    );
+    _scrollController.animateTo(
+      newOffset,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInQuad,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +85,7 @@ class SWScaffold extends StatelessWidget {
                     child: Text(
                       title!,
                       key: ValueKey(title),
-                      style: SWTheme.regularTextStyle,
+                      style: SWTheme.regularTextStyle.copyWith(fontSize: 50),
                     ),
                   ),
                 )
@@ -94,6 +119,7 @@ class SWScaffold extends StatelessWidget {
                     children: [
                       Expanded(
                           child: CustomScrollView(
+                        controller: _scrollController,
                         slivers: [
                           SliverFillRemaining(
                             hasScrollBody: false,
@@ -112,6 +138,23 @@ class SWScaffold extends StatelessWidget {
                   ),
           ),
         ),
+        floatingActionButton: showFloatingActionButton
+            ? Padding(
+                padding: const EdgeInsets.only(right: 20, top: 60 ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SWIconButton(
+                      onPressed: _scrollUp,
+                      icon: Icons.arrow_upward,
+                    ),
+                    const SizedBox(height: 75),
+                    SWIconButton(
+                        onPressed: _scrollDown, icon: Icons.arrow_downward),
+                  ],
+                ),
+              )
+            : null,
       ),
     );
   }
