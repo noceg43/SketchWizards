@@ -4,6 +4,7 @@ import 'package:sketch_wizards/draw_test_app.dart';
 
 //TODO localization
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
 
   runApp(const DrawTestApp());

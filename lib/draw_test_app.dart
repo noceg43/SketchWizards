@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ml_dart_wizard/wizard.dart';
-import 'package:sketch_wizards/features/draw/constants.dart';
 import 'package:sketch_wizards/features/draw/data/canvas_state.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
 import 'package:sketch_wizards/features/draw/widgets/widget_canvas.dart';
-import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
 
 class DrawTestApp extends StatefulWidget {
   const DrawTestApp({super.key});
@@ -26,6 +24,9 @@ class _DrawTestAppState extends State<DrawTestApp> {
     canvasKey,
   );
 
+  ValueNotifier<List<String>> guessResult =
+      ValueNotifier<List<String>>(["..."]);
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +34,7 @@ class _DrawTestAppState extends State<DrawTestApp> {
     asStream.listen((event) async {
       if (event is DrawCanvas) {
         var result = await wizard.guess(event.imageBytes);
-        print(result);
+        guessResult.value = result;
       }
     });
   }
@@ -69,32 +70,18 @@ class _DrawTestAppState extends State<DrawTestApp> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Image display
-                        /*
-                        StreamBuilder(
-                          stream: asStream,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final CanvasState state =
-                                  snapshot.data as CanvasState;
-                              if (state is DrawCanvas) {
-                                return _ImageFromDrawCanvas(canvasState: state);
-                              }
-                            }
-
-                            return const SizedBox.shrink();
-                           
-                            return SizedBox(
-                              height: canvasSize.height,
-                              width: canvasSize.width,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                        // Guess result
+                        ValueListenableBuilder<List<String>>(
+                          valueListenable: guessResult,
+                          builder: (context, value, child) {
+                            return Column(
+                              children: [
+                                const Text("Guess:"),
+                                for (var item in value) Text(item),
+                              ],
                             );
-                            
                           },
-                        )
-                        */
+                        ),
                       ],
                     ),
                   ),

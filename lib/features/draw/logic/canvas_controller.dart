@@ -26,8 +26,8 @@ class CanvasController {
     double pixelRatio = canvasSize.width / size;
     ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
 
-    //TODO change the format to rawExtendedRgba128
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.rawExtendedRgba128);
+    //TODO change the format to rawRgba
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
     Uint8List rawBytes = byteData!.buffer.asUint8List();
 
     _state.value = DrawCanvas(
