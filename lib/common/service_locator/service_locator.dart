@@ -15,9 +15,11 @@ Future<void> setupLocator() async {
 
   Wizard wizard = Wizard();
 
-  await wizard.startPca();
+  //Inserire qua il contenuto del file PCA.csv
+  await wizard.startPca("");
 
-  await wizard.startClustering();
+  //Inserire qua il contenuto del file centroids.json
+  await wizard.startClustering("");
 
   getIt.registerLazySingleton(
     () => wizard,
