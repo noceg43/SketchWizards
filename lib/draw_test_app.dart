@@ -24,8 +24,7 @@ class _DrawTestAppState extends State<DrawTestApp> {
     canvasKey,
   );
 
-  ValueNotifier<List<String>> guessResult =
-      ValueNotifier<List<String>>(["..."]);
+  ValueNotifier<num> guessResult = ValueNotifier<num>(0);
 
   @override
   void initState() {
@@ -33,8 +32,8 @@ class _DrawTestAppState extends State<DrawTestApp> {
     Wizard wizard = GetIt.instance.get<Wizard>();
     asStream.listen((event) async {
       if (event is DrawCanvas) {
-        var result = await wizard.guess(event.imageBytes);
-        guessResult.value = result;
+        var result = await wizard.guess(event.imageBytes, "apple");
+        guessResult.value = result[1];
       }
     });
   }
@@ -71,13 +70,13 @@ class _DrawTestAppState extends State<DrawTestApp> {
                         const SizedBox(height: 20),
 
                         // Guess result
-                        ValueListenableBuilder<List<String>>(
+                        ValueListenableBuilder<num>(
                           valueListenable: guessResult,
                           builder: (context, value, child) {
                             return Column(
                               children: [
                                 const Text("Guess:"),
-                                for (var item in value) Text(item),
+                                Text(value.toString()),
                               ],
                             );
                           },
