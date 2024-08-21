@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ml_dart_wizard/model/guess_result.dart';
+import 'package:ml_dart_wizard/models/guess_result.dart';
 import 'package:ml_dart_wizard/wizard.dart';
 import 'package:sketch_wizards/features/draw/data/canvas_state.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
