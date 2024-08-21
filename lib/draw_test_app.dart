@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ml_dart_wizard/model/guess_result.dart';
 import 'package:ml_dart_wizard/wizard.dart';
 import 'package:sketch_wizards/features/draw/data/canvas_state.dart';
 import 'package:sketch_wizards/features/draw/logic/canvas_controller.dart';
@@ -24,7 +25,8 @@ class _DrawTestAppState extends State<DrawTestApp> {
     canvasKey,
   );
 
-  ValueNotifier<num> guessResult = ValueNotifier<num>(0);
+  ValueNotifier<GuessState> guessResult =
+      ValueNotifier<GuessState>(EmptyGuessResult());
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _DrawTestAppState extends State<DrawTestApp> {
     asStream.listen((event) async {
       if (event is DrawCanvas) {
         var result = await wizard.guess(event.imageBytes, "apple");
-        guessResult.value = result[1];
+        guessResult.value = result;
       }
     });
   }
@@ -70,13 +72,19 @@ class _DrawTestAppState extends State<DrawTestApp> {
                         const SizedBox(height: 20),
 
                         // Guess result
-                        ValueListenableBuilder<num>(
+                        ValueListenableBuilder<GuessState>(
                           valueListenable: guessResult,
                           builder: (context, value, child) {
+                            String guess = (value is EmptyGuessResult)
+                                ? "Empty"
+                                : value is GuessResult
+                                    ? value.topGuess()
+                                    : "Loading...";
+
                             return Column(
                               children: [
                                 const Text("Guess:"),
-                                Text(value.toString()),
+                                Text(guess),
                               ],
                             );
                           },

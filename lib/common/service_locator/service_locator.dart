@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ml_dart_wizard/wizard.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
@@ -16,10 +17,12 @@ Future<void> setupLocator() async {
   Wizard wizard = Wizard();
 
   //Inserire qua il contenuto del file PCA.csv
-  await wizard.startPca("");
+  // read pca file
+  String pcaContent = await rootBundle.loadString('assets/PCA100.csv');
+  await wizard.startPca(pcaContent);
 
-  //Inserire qua il contenuto del file centroids.json
-  await wizard.startClustering("");
+  String centroidsContent = await rootBundle.loadString('assets/centroids100.json');
+  await wizard.startClustering(centroidsContent);
 
   getIt.registerLazySingleton(
     () => wizard,
