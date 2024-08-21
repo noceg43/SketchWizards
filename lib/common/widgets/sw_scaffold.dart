@@ -54,6 +54,7 @@ class SWScaffold extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           elevation: 0,
           toolbarHeight: 150,
           automaticallyImplyLeading: false,
@@ -140,7 +141,7 @@ class SWScaffold extends StatelessWidget {
         ),
         floatingActionButton: showFloatingActionButton
             ? Padding(
-                padding: const EdgeInsets.only(right: 20, top: 60 ),
+                padding: const EdgeInsets.only(right: 20, top: 60),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
