@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
+import 'package:sketch_wizards/features/draw/constants.dart';
 
 class WidgetCanvas extends StatefulWidget {
   const WidgetCanvas({super.key, required this.canvasKey});
@@ -20,6 +22,19 @@ class _WidgetCanvasState extends State<WidgetCanvas> {
         imageSize = constraints.biggest;
         return Stack(
           children: [
+            Positioned.fill(
+                child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+            )),
             GestureDetector(
               onTapDown: (details) {
                 if (!isDragging) {
@@ -55,21 +70,13 @@ class _WidgetCanvasState extends State<WidgetCanvas> {
                       .add(Offset.zero); // Add a zero offset to separate lines
                 });
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1,
-                  ),
-                ),
-                child: RepaintBoundary(
-                  key: widget.canvasKey,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: ClipRect(
-                      child: CustomPaint(
-                        painter: _CanvasPainter(points),
-                      ),
+              child: RepaintBoundary(
+                key: widget.canvasKey,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRect(
+                    child: CustomPaint(
+                      painter: _CanvasPainter(points),
                     ),
                   ),
                 ),
@@ -78,14 +85,14 @@ class _WidgetCanvasState extends State<WidgetCanvas> {
             Positioned(
               top: 10,
               right: 10,
-              child: IconButton(
-                icon: const Icon(Icons.clear_outlined),
-                onPressed: () {
-                  setState(() {
-                    points.clear();
-                  });
-                },
-              ),
+              child: SWIconButton(
+                smallIcon: true,
+                  icon: Icons.clear,
+                  onPressed: () {
+                    setState(() {
+                      points.clear();
+                    });
+                  }),
             ),
           ],
         );
@@ -104,7 +111,7 @@ class _CanvasPainter extends CustomPainter {
     Paint paint = Paint()
       ..color = Colors.black
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 5.0;
+      ..strokeWidth = brushSize;
 
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != Offset.zero && points[i + 1] != Offset.zero) {

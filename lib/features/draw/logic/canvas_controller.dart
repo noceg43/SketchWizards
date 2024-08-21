@@ -26,8 +26,8 @@ class CanvasController {
     double pixelRatio = canvasSize.width / size;
     ui.Image image = await boundary.toImage(pixelRatio: pixelRatio);
 
-    //TODO change the format to rawRgba
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+    ByteData? byteData =
+        await image.toByteData(format: ui.ImageByteFormat.rawRgba);
     Uint8List rawBytes = byteData!.buffer.asUint8List();
 
     _state.value = DrawCanvas(
@@ -36,9 +36,11 @@ class CanvasController {
     );
   }
 
-  Stream<CanvasState> asStream(Duration interval, GlobalKey globalKey) async* {
+  Stream<CanvasState> asStream(GlobalKey globalKey) async* {
     while (true) {
-      await Future.delayed(interval);
+      if (globalKey.currentContext == null) {
+        break;
+      }
       await _updateState(globalKey: globalKey);
       yield _state.value;
     }

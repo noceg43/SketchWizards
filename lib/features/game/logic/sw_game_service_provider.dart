@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sketch_wizards/features/game/models/sw_game_service.dart';
 import 'package:sketch_wizards/features/game/models/sw_round.dart';
 import 'package:sketch_wizards/features/game/models/sw_user_round.dart';
-import 'package:sketch_wizards/features/game/repository/sw_word.dart';
+import 'package:sketch_wizards/features/game/repository/sw_word_repository.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_game_settings.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 
@@ -23,7 +23,7 @@ class SWGameServiceProvider extends ChangeNotifier {
   void initGame(SWGameSettings gameSettings) {
     _gameSettings = gameSettings;
     _game = SWGameService(
-        gameSettings, () => SketchWizardsWordRepository.getWord());
+        gameSettings, () => SketchWizardsWordRepository.getRandomLabel());
     currentRoundNumber = 0;
     _currentPlayerId = gameSettings.players.first.id;
     notifyListeners();

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ml_dart_wizard/models/guess_result.dart';
 import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
+import 'package:sketch_wizards/features/draw/constants.dart';
+import 'package:sketch_wizards/features/draw/widgets/widget_canvas.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_timer.dart';
+import 'package:sketch_wizards/features/game/logic/sw_wizard_guess_provider.dart';
 import 'package:sketch_wizards/features/game/models/sw_user_round.dart';
 import 'package:sketch_wizards/sw_router.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
@@ -58,12 +62,30 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
     );
   }
 
+  GlobalKey canvasKey = GlobalKey();
+
+  late final wizardGuessProvider = SWWizardGuessProvider(
+    canvasKey: canvasKey,
+    onGuessed: () => goToNewScreen(true),
+  );
+
+  String? getPossibleWord() {
+    if (wizardGuessProvider.guessResult.value is GuessResult) {
+      return (wizardGuessProvider.guessResult.value as GuessResult).topGuess();
+    }
+    return null;
+  }
+
+  late Stream<String?> possibleWord =
+      Stream.periodic(thinkingTimer, (_) => getPossibleWord());
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(seconds: 1));
       gameServiceProvider.setCurrentUserRound(SWUserRoundStatus.inProgress);
       timer.start();
+      wizardGuessProvider.startGuessing(userRound.word);
     });
   }
 
@@ -85,10 +107,31 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: PlayerWidget(
-                        text: gameServiceProvider.currentPlayer.name),
+                  child: Column(
+                    children: [
+                      PlayerWidget(
+                          text: gameServiceProvider.currentPlayer.name),
+                      const Spacer(),
+                      ListenableBuilder(
+                        listenable: wizardGuessProvider.guessResult,
+                        builder: (context, child) => Text(
+                          wizardGuessProvider.guessResult.value.toString(),
+                          style: SWTheme.regularTextStyle,
+                        ),
+                      ),
+                      const Spacer(),
+                      StreamBuilder(
+                          stream: possibleWord,
+                          builder: (context, snapshot) {
+                            return Text(
+                              snapshot.data ?? "Thinking...",
+                              style: SWTheme.boldTextStyle.copyWith(
+                                fontSize: 20,
+                                color: SWTheme.textColor,
+                              ),
+                            );
+                          }),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -96,20 +139,9 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
                   child: Center(
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Placeholder(
-                        color: SWTheme.textColor,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SWTextButton(
-                                text: "Guessed",
-                                onPressed: () => goToNewScreen(true)),
-                            const SizedBox(height: 20),
-                            SWTextButton(
-                                text: "Failed",
-                                onPressed: () => goToNewScreen(false)),
-                          ],
-                        ),
+                      child: // Drawing canvas
+                          WidgetCanvas(
+                        canvasKey: canvasKey,
                       ),
                     ),
                   ),
@@ -121,7 +153,7 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
                         listenable: timer,
                         builder: (context, _) {
                           return Text(
-                            timer.value.toString(),
+                            "-${timer.value.inSeconds}",
                             style: SWTheme.boldTextStyle.copyWith(
                               fontSize: 50,
                               color: SWTheme.textColor,

@@ -6,14 +6,16 @@ import 'package:sketch_wizards/features/start_game/logic/sw_game_settings_provid
 
 final GetIt getIt = GetIt.instance;
 
-Future<void> setupLocator() async {
+void setupLocator()  {
   getIt.registerLazySingleton(
     () => SWGameSettingsProvider(),
   );
   getIt.registerLazySingleton(
     () => SWGameServiceProvider(),
   );
+}
 
+Future<void> setupWizard() async {
   Wizard wizard = Wizard();
 
   //Inserire qua il contenuto del file PCA.csv
@@ -21,7 +23,8 @@ Future<void> setupLocator() async {
   String pcaContent = await rootBundle.loadString('assets/PCA100.csv');
   await wizard.startPca(pcaContent);
 
-  String centroidsContent = await rootBundle.loadString('assets/centroids100.json');
+  String centroidsContent =
+      await rootBundle.loadString('assets/centroids100.json');
   await wizard.startClustering(centroidsContent);
 
   getIt.registerLazySingleton(

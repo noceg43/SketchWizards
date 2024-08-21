@@ -4,10 +4,12 @@ import 'package:sketch_wizards/features/game/screens/sw_draw_round_screen.dart';
 import 'package:sketch_wizards/features/game/screens/sw_game_chart_screen.dart';
 import 'package:sketch_wizards/features/game/screens/sw_round_chart_screen.dart';
 import 'package:sketch_wizards/features/game/screens/sw_round_intro_screen.dart';
+import 'package:sketch_wizards/features/splash_loading/splash_loading_screen.dart';
 import 'package:sketch_wizards/features/start_game/screens/sw_game_options.dart';
 import 'package:sketch_wizards/features/start_game/screens/sw_home.dart';
 
 enum SketchWizardsRoutes {
+  splashLoading,
   home,
   gameOptions,
   roundIntro,
@@ -20,6 +22,8 @@ enum SketchWizardsRoutes {
 extension SketchWizardsRoutesExtension on SketchWizardsRoutes {
   String get route {
     switch (this) {
+      case SketchWizardsRoutes.splashLoading:
+        return '/splashLoading';
       case SketchWizardsRoutes.home:
         return '/';
       case SketchWizardsRoutes.gameOptions:
@@ -40,6 +44,12 @@ extension SketchWizardsRoutesExtension on SketchWizardsRoutes {
 
 class SketchWizardsRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    if (SketchWizardsRoutes.splashLoading.route == settings.name) {
+      return MaterialPageRoute(
+        settings: RouteSettings(name: SketchWizardsRoutes.splashLoading.route),
+        builder: (_) => const SplashLoadingScreen(),
+      );
+    }
     if (SketchWizardsRoutes.home.route == settings.name) {
       return MaterialPageRoute(
         settings: RouteSettings(name: SketchWizardsRoutes.home.route),

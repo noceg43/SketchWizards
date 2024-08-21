@@ -13,6 +13,7 @@ class _SketchWizardsAppState extends State<SketchWizardsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: SketchWizardsRoutes.splashLoading.route,
       debugShowCheckedModeBanner: false,
       theme: SWTheme.themeData,
       onGenerateRoute: SketchWizardsRouter.onGenerateRoute,

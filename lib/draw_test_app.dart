@@ -21,7 +21,6 @@ class _DrawTestAppState extends State<DrawTestApp> {
   Duration interval = const Duration(seconds: 1);
 
   late Stream<CanvasState> asStream = controller.asStream(
-    interval,
     canvasKey,
   );
 
