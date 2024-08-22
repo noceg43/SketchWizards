@@ -31,8 +31,8 @@ class SWRoundChartScreen extends StatelessWidget {
         child: SWTextButton(
           onPressed: () {
             gameServiceProvider.nextPlayer();
-            Navigator.of(context)
-                .pushNamed(SketchWizardsRoutes.roundIntro.route);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                SketchWizardsRoutes.roundIntro.route, (route) => false);
           },
           text: 'Next Round',
         ),

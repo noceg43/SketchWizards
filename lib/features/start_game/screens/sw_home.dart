@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sketch_wizards/common/service_locator/service_locator.dart';
 import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
@@ -35,10 +36,12 @@ class _SWHomeState extends State<SWHome> {
               1
           : 1;
 
+      // remove last spaces
+      String playerName = controller.text.trimRight();
       swGameProvider.addPlayer(
         SWPlayer(
           id: newId,
-          name: controller.text,
+          name: playerName,
         ),
       );
       controller.clear();
@@ -85,6 +88,10 @@ class _SWHomeState extends State<SWHome> {
                         onDone: onAddPlayerPressed,
                         enabled: swGameProvider.game.players.length <
                             GameSettingsConstants.maxPlayers,
+                        inputFormatters: [
+                          // avoid first space
+                          FilteringTextInputFormatter.deny(RegExp(r'^\s')),
+                        ],
                       ),
                     ),
                     const SizedBox(width: 20),

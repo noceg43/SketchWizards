@@ -26,6 +26,7 @@ class SWWizardGuessProvider {
     bool isGuessed = false;
 
     await for (var event in asStream) {
+      await Future.delayed(const Duration(milliseconds: 300));
       if (event is DrawCanvas) {
         var result = await wizard.guess(event.imageBytes, label);
         guessResult.value = result;

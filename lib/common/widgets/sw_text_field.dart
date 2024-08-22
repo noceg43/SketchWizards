@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
 
 class SWTextField extends StatefulWidget {
@@ -7,6 +8,7 @@ class SWTextField extends StatefulWidget {
   final bool enabled;
   final int maxLength;
   final String hintText;
+  final List<TextInputFormatter>? inputFormatters;
 
   const SWTextField({
     super.key,
@@ -15,6 +17,7 @@ class SWTextField extends StatefulWidget {
     required this.enabled,
     this.maxLength = 20,
     required this.hintText,
+    this.inputFormatters,
   });
 
   @override
@@ -60,6 +63,7 @@ class SWTextFieldState extends State<SWTextField> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
+        inputFormatters: widget.inputFormatters,
         cursorColor: SWTheme.textColor,
         style: SWTheme.regularTextStyle,
       ),

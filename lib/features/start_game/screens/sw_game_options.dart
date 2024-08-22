@@ -45,7 +45,11 @@ class _SWGameOptionsState extends State<SWGameOptions> {
     void onStartGamePressed() {
       final swGameServiceProvider = getIt.get<SWGameServiceProvider>();
       swGameServiceProvider.initGame(swGameProvider.game);
-      Navigator.pushNamed(context, SketchWizardsRoutes.roundIntro.route);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        SketchWizardsRoutes.roundIntro.route,
+        (route) => false,
+      );
     }
 
     return SWScaffold(
@@ -102,6 +106,7 @@ class _SWGameOptionsState extends State<SWGameOptions> {
                       return Row(
                         children: [
                           Expanded(
+                            flex: 3,
                             child: SWSlider(
                               min: 0,
                               max: GameSettingsConstants.roundDurations.length
@@ -126,10 +131,15 @@ class _SWGameOptionsState extends State<SWGameOptions> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 50),
-                          Text(
-                            swGameProvider.roundDurationToString,
-                            style: SWTheme.regularTextStyle,
+                          Flexible(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                swGameProvider.roundDurationToString,
+                                style: SWTheme.regularTextStyle,
+                                maxLines: 1,
+                              ),
+                            ),
                           ),
                         ],
                       );
@@ -147,8 +157,10 @@ class _SWGameOptionsState extends State<SWGameOptions> {
                     listenable: roundNumber,
                     builder: (context, _) {
                       return Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
+                            flex: 3,
                             child: SWSlider(
                               min: GameSettingsConstants.minRoundNumber
                                   .toDouble(),
@@ -172,10 +184,15 @@ class _SWGameOptionsState extends State<SWGameOptions> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 50),
-                          Text(
-                            "${roundNumber.value.toInt()} round${roundNumber.value.toInt() > 1 ? 's' : ''}",
-                            style: SWTheme.regularTextStyle,
+                          Flexible(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "${roundNumber.value.toInt()} round${roundNumber.value.toInt() > 1 ? 's' : ''}",
+                                style: SWTheme.regularTextStyle,
+                                maxLines: 1,
+                              ),
+                            ),
                           ),
                         ],
                       );

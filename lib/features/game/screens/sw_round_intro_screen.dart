@@ -40,9 +40,13 @@ class SWRoundIntroScreen extends StatelessWidget {
               ),
               bottomWidget: Center(
                 child: SWTextButton(
-                    text: "Ok",
-                    onPressed: () => Navigator.of(context)
-                        .pushNamed(SketchWizardsRoutes.drawRound.route)),
+                  text: "Ok",
+                  onPressed: () =>
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                    SketchWizardsRoutes.drawRound.route,
+                    (route) => false,
+                  ),
+                ),
               ),
               children: [
                 const SizedBox(height: 50),

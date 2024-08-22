@@ -28,15 +28,24 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
   late final timer = SWGameTimerController(gameServiceProvider.roundDuration,
       onFinished: () => goToNewScreen(false));
 
+  bool isGoingToNewScreen = false;
+
   void goToNewScreen(bool isCorrect) {
+    if (isGoingToNewScreen) {
+      return;
+    }
+
+    isGoingToNewScreen = true;
+
     int score = timer.value.inSeconds;
 
     gameServiceProvider.setCurrentUserRound(
         isCorrect ? SWUserRoundStatus.guessed : SWUserRoundStatus.failed,
         score: isCorrect ? score : null);
 
-    Navigator.of(context).pushReplacementNamed(
+    Navigator.of(context).pushNamedAndRemoveUntil(
       SketchWizardsRoutes.drawResult.route,
+      (route) => false,
       arguments: {
         'isCorrect': isCorrect,
         'onScreenClose': (BuildContext context) {
@@ -44,13 +53,11 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
             bool isLastRound = gameServiceProvider.currentRoundNumber ==
                 gameServiceProvider.game.rounds.length - 1;
             // end game if the last round
-            if (isLastRound) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  SketchWizardsRoutes.finalChart.route, (route) => false);
-            } else {
-              Navigator.of(context)
-                  .pushNamed(SketchWizardsRoutes.roundChart.route);
-            }
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                isLastRound
+                    ? SketchWizardsRoutes.finalChart.route
+                    : SketchWizardsRoutes.roundChart.route,
+                (route) => false);
           } else {
             gameServiceProvider.nextPlayer();
 
@@ -131,6 +138,7 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
                               ),
                             );
                           }),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -166,6 +174,7 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
                         text: "Skip",
                         onPressed: () => goToNewScreen(false),
                       ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
