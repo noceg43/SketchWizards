@@ -23,21 +23,21 @@ extension SketchWizardsRoutesExtension on SketchWizardsRoutes {
   String get route {
     switch (this) {
       case SketchWizardsRoutes.splashLoading:
-        return '/splashLoading';
+        return '/Splash-loading';
       case SketchWizardsRoutes.home:
-        return '/';
+        return '/Home';
       case SketchWizardsRoutes.gameOptions:
-        return '/gameOptions';
+        return '/Game-options';
       case SketchWizardsRoutes.roundIntro:
-        return '/roundIntro';
+        return '/Round-intro';
       case SketchWizardsRoutes.drawRound:
-        return '/drawRound';
+        return '/Draw-round';
       case SketchWizardsRoutes.drawResult:
-        return '/drawResult';
+        return '/Draw-result';
       case SketchWizardsRoutes.roundChart:
-        return '/roundChart';
+        return '/Round-chart';
       case SketchWizardsRoutes.finalChart:
-        return '/finalChart';
+        return '/Final-chart';
     }
   }
 }

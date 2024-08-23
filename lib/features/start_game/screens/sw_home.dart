@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sketch_wizards/common/service_locator/service_locator.dart';
 import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
@@ -72,6 +73,8 @@ class _SWHomeState extends State<SWHome> {
               text: 'Start Game',
               onPressed: onStartGamePressed,
               enabled: swGameProvider.game.players.isNotEmpty,
+              key: ValueKey(
+                  "start_game_button_${swGameProvider.game.players.isNotEmpty}"),
             ),
           ),
           children: [
@@ -111,14 +114,27 @@ class _SWHomeState extends State<SWHome> {
                 milliseconds: 300,
               ),
               child: swGameProvider.game.players.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      child: Text(
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 20),
+                      child: const Text(
                         "Sketch Wizards",
                         style: TextStyle(
                           fontSize: 250,
                           color: SWTheme.primaryColor,
                         ),
+                      )
+                          .animate()
+                          .slideX(duration: 300.milliseconds)
+                          .shakeX(delay: 300.milliseconds)
+                          .animate(
+                        delay: 1.seconds,
+                        onPlay: (controller) => controller.repeat(),
+                        effects: [
+                          ShimmerEffect(
+                            duration: 5.seconds,
+                          ),
+                        ],
                       ),
                     )
                   : Center(
@@ -132,9 +148,12 @@ class _SWHomeState extends State<SWHome> {
                               text: player.name,
                               onDelete: () =>
                                   swGameProvider.removePlayer(player),
-                            ),
+                            )
                         ],
-                      ),
+                      ).animate().slideY(
+                          begin: -5,
+                          curve: Curves.elasticOut,
+                          duration: 1.seconds),
                     ),
             ),
           ],
