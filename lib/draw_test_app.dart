@@ -33,7 +33,7 @@ class _DrawTestAppState extends State<DrawTestApp> {
     Wizard wizard = GetIt.instance.get<Wizard>();
     asStream.listen((event) async {
       if (event is DrawCanvas) {
-        var result = await wizard.guess(event.imageBytes, "apple");
+        var result = await wizard.guess(event.imageBytes);
         guessResult.value = result;
       }
     });

@@ -16,8 +16,10 @@ class _SWDrawResultScreenState extends State<SWDrawResultScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        const Duration(seconds: 2), () => widget.onScreenClose(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(
+          const Duration(seconds: 2), () => widget.onScreenClose(context));
+    });
   }
 
   @override

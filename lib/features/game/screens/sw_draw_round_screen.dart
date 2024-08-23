@@ -49,6 +49,7 @@ class _SWDrawRoundScreenState extends State<SWDrawRoundScreen> {
       arguments: {
         'isCorrect': isCorrect,
         'onScreenClose': (BuildContext context) {
+          if (!context.mounted) return;
           if (gameServiceProvider.isCurrentRoundFinished) {
             bool isLastRound = gameServiceProvider.currentRoundNumber ==
                 gameServiceProvider.game.rounds.length - 1;
