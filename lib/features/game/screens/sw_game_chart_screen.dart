@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
-import 'package:sketch_wizards/features/game/widgets/leadboard_player.dart';
+import 'package:sketch_wizards/features/game/widgets/leaderboard_widget.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 import 'package:sketch_wizards/sw_router.dart';
 
@@ -37,7 +37,7 @@ class SWGameChartScreen extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 5,
-              child: LeadboardPlayer(
+              child: LeaderBoardPlayer(
                   index: 0,
                   player: winner.key,
                   score: winner.value,
@@ -53,7 +53,7 @@ class SWGameChartScreen extends StatelessWidget {
               for (final MapEntry<SWPlayer, int> entry in playersScores.entries)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: LeadboardPlayer(
+                  child: LeaderBoardPlayer(
                     index: gameServiceProvider.playersScores.keys
                         .toList()
                         .indexOf(entry.key),

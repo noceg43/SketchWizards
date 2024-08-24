@@ -30,8 +30,6 @@ class SWWizardGuessProvider {
         var result = await wizard.guess(event.imageBytes);
         guessResult.value = result;
 
-        print("Guess result: $result");
-
         if (result is GuessResult) {
           List<String> guesses = result.guesses;
           if (guesses.contains(label) && !isGuessed) {

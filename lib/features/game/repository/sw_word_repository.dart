@@ -44,13 +44,22 @@ class SketchWizardsWordRepository {
     'wineglass'
   ];
 
-  static String? _latestLabel;
+  static final List<String> _usedLabels = [];
+  static const int _maxUsedLabels = 8;
 
   static String getRandomLabel() {
-    String newLabel = labels[Random().nextInt(labels.length)];
+    // Shuffle the labels list to increase randomness
+    labels.shuffle();
 
-    if (newLabel == _latestLabel) {
-      return getRandomLabel();
+    String newLabel;
+
+    do {
+      newLabel = labels[Random().nextInt(labels.length)];
+    } while (_usedLabels.contains(newLabel));
+
+    _usedLabels.add(newLabel);
+    if (_usedLabels.length > _maxUsedLabels) {
+      _usedLabels.removeAt(0);
     }
 
     return newLabel;

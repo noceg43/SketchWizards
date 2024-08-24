@@ -17,9 +17,9 @@ class SWTextButton extends StatelessWidget {
       child: TextButton(
         onPressed: enabled ? onPressed : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 140 ),
           child: FittedBox(
-            child: Text(text, style: SWTheme.regularTextStyle),
+            child: Text(text, style: SWTheme.regularTextStyle.copyWith(fontSize: 50)),
           ),
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:sketch_wizards/common/widgets/player_widget.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
-import 'package:sketch_wizards/features/game/widgets/leadboard_player.dart';
+import 'package:sketch_wizards/features/game/widgets/leaderboard_widget.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 import 'package:sketch_wizards/sw_router.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
@@ -89,7 +89,7 @@ class SWRoundChartScreen extends StatelessWidget {
         ),
         const SizedBox(height: 60),
         Text(
-          'Leadboard:',
+          'Leaderboard:',
           style: SWTheme.regularTextStyle,
         ),
         const SizedBox(height: 20),
@@ -100,7 +100,7 @@ class SWRoundChartScreen extends StatelessWidget {
                   in gameServiceProvider.playersScores.entries)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: LeadboardPlayer(
+                  child: LeaderBoardPlayer(
                     index: gameServiceProvider.playersScores.keys
                         .toList()
                         .indexOf(entry.key),

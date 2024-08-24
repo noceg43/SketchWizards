@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sketch_wizards/common/widgets/sw_icon_button.dart';
 import 'package:sketch_wizards/common/widgets/sw_scaffold.dart';
 import 'package:sketch_wizards/common/widgets/sw_text_button.dart';
 import 'package:sketch_wizards/features/game/logic/sw_game_service_provider.dart';
+import 'package:sketch_wizards/features/start_game/logic/sw_game_settings_provider.dart';
 import 'package:sketch_wizards/sw_router.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
 
@@ -13,6 +15,7 @@ class SWRoundIntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameServiceProvider = GetIt.I<SWGameServiceProvider>();
+    final gameSettingsProvider = GetIt.I<SWGameSettingsProvider>();
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -35,7 +38,7 @@ class SWRoundIntroScreen extends StatelessWidget {
                         (route) => false,
                       );
                     },
-                  ),
+                  )
                 ],
               ),
               bottomWidget: Center(
@@ -59,7 +62,7 @@ class SWRoundIntroScreen extends StatelessWidget {
                             style:
                                 SWTheme.boldTextStyle.copyWith(fontSize: 50)),
                         TextSpan(
-                            text: ', you have 20 seconds to draw:',
+                            text: ', you have ${gameSettingsProvider.roundDurationToString} to draw:',
                             style: SWTheme.regularTextStyle
                                 .copyWith(fontSize: 50)),
                       ],
@@ -67,11 +70,16 @@ class SWRoundIntroScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: Text(
                     gameServiceProvider.currentWord,
                     style: SWTheme.regularTextStyle
-                        .copyWith(fontSize: 50, fontStyle: FontStyle.italic),
-                  ),
+                        .copyWith(fontSize: 150, letterSpacing: 5),
+                  ).animate().slideX(
+                      begin: -5,
+                      curve: Curves.ease,
+                      duration: 0.8.seconds,
+                      delay: 0.2.seconds),
                 ),
               ],
             );

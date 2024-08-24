@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sketch_wizards/features/start_game/models/sw_player.dart';
 import 'package:sketch_wizards/theme/sw_theme.dart';
 
-class LeadboardPlayer extends StatelessWidget {
-  const LeadboardPlayer({
+class LeaderBoardPlayer extends StatelessWidget {
+  const LeaderBoardPlayer({
     super.key,
     required this.index,
     required this.player,
