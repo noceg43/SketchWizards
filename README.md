@@ -29,9 +29,9 @@ The machine learning component of the game is powered by [**MLDart**](https://gi
    ```bash
    git clone https://github.com/yourusername/sketch-wizards.git
    cd sketch-wizards
-2. ***Install Dependencies**
+2. **Install Dependencies**
    ```bash
    flutter pub get
-2. ***Run the Application**
+2. **Run the Application**
    ```bash
    flutter run
