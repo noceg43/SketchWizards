@@ -117,7 +117,7 @@ class _CanvasPainter extends CustomPainter {
       if (points[i] != Offset.zero && points[i + 1] != Offset.zero) {
         canvas.drawLine(points[i], points[i + 1], paint);
       } else if (points[i] != Offset.zero && points[i + 1] == Offset.zero) {
-        canvas.drawCircle(points[i], 2.5, paint);
+        canvas.drawCircle(points[i], brushSize / 2, paint);
       }
     }
   }

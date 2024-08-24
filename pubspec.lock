@@ -206,11 +206,9 @@ packages:
   ml_dart_wizard:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "13ec668a6c20ebd30c5005a54db4a1111a53b5a0"
-      url: "git@github.com:LucaTedeschini/MLDart.git"
-    source: git
+      path: "../MLDart"
+      relative: true
+    source: path
     version: "0.0.0"
   path:
     dependency: transitive
