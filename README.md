@@ -34,7 +34,7 @@ The game's machine learning capabilities are powered by [**MLDart**](https://git
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/sketch-wizards.git
+   git clone https://github.com/noceg43/SketchWizards.git
    cd sketch-wizards
 2. **Install Dependencies**
    ```bash
