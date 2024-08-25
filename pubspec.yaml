@@ -8,6 +8,10 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.1.5 <4.0.0'
 
+override_dependencies:
+  ml_dart_wizard:
+    path: ../MLDart
+
 dependencies:
   flutter:
     sdk: flutter
