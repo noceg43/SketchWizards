@@ -24,6 +24,9 @@ Future<void> setupWizard() async {
   String points = await rootBundle.loadString('assets/points.json');
   await wizard.startPointFinder(points);
 
+  String imagecontent = await rootBundle.loadString('assets/image.csv');
+  wizard.test(imagecontent);
+
   getIt.registerLazySingleton(
     () => wizard,
   );

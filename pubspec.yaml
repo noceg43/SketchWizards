@@ -14,9 +14,7 @@ dependencies:
   get_it: ^7.6.7
   flutter_animate: ^4.5.0
   ml_dart_wizard:
-    git:
-      url: git@github.com:LucaTedeschini/MLDart.git
-      ref: main
+    path: ../MLDart
 
   cupertino_icons: ^1.0.6
 
