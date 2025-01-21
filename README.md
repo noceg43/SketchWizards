@@ -1,34 +1,37 @@
 # Sketch Wizards
 
+![alt text](docs/pictures/screenshots.png)
 🌟 **Welcome to Sketch Wizards** 🌟
 
-An exciting drawing game developed for the **LG Web OS Hackathon 2024**! 🎨✨
+A drawing game developed for the **LG Web OS Hackathon 2024**! 🎨✨
 
 [**Hackathon Details**](https://weboshackathon.lge.com/)
 
 ## Overview
 
-**Sketch Wizards** is a captivating and interactive drawing game designed for up to **8 players**. Using a Magic Remote, players draw on an LG TV screen while an advanced machine learning model works to interpret and guess the sketches. 🖌️🤖 The game includes features like customizable player names, adjustable time limits, and multiple rounds. After each round, a dynamic leaderboard showcases scores and rankings, adding to the competitive fun!
+**Sketch Wizards** is an interactive drawing game developed for the LG Web OS Hackathon 2024. The game is designed for up to 8 players who use a Magic Remote to draw on an LG TV screen. An advanced machine learning model interprets and guesses the drawings in real-time, providing a competitive experience with dynamic leaderboards and multiple rounds.
+
+## Project Objectives
+
+- **Minimize package dependencies** to ensure optimal compatibility with the Web OS platform.
+- Ensure broad compatibility and stable performance across **Linux**, **Web**, and **webOS** environments.
+
+## GameLoop
+![alt text](docs/pictures/gameloop.png)
 
 ## Key Features
 
 - **Multi-Player Support**: Up to 8 players can join the fun simultaneously. 🎉
 - **Customizable Settings**: Personalize player names, adjust time limits, and set the number of rounds. ⚙️
-- **Real-Time AI Interaction**: An advanced machine learning model interprets and guesses your drawings. 🤖🖍️
+- **Real-Time AI Interaction**: A machine learning model interprets and guesses the sketches drawn by players. 🤖🖍️
 - **Dynamic Leaderboards**: Check out scores and rankings after each round. 📊
-
-## Project Goals
-
-- The project aims to **minimize package dependencies** to ensure seamless compatibility with the Web OS platform. 📦🚫 
-- It has been developed and tested on **Linux**, **Web**, and **webOS** platforms to ensure broad compatibility and smooth performance across different environments. 🖥️🌐📺
 
 ## Machine Learning Integration
 
-The game's machine learning capabilities are powered by [**MLDart**](https://github.com/LucaTedeschini/MLDart), a Dart-based machine learning project that helps interpret and analyze the drawn sketches. 🧠✨
+The game utilizes [**MLDart**](https://github.com/LucaTedeschini/MLDart), a Dart-based machine learning project, to interpret and analyze the drawn sketches. This provides real-time feedback to the players and enhances the gameplay experience.
 
-## Web Demo
-
-🌐 Check out our live demo here: [https://noceg43.github.io/sketchWizardWEB/](https://noceg43.github.io/sketchWizardWEB/)
+## Personal Considerations
+Joining the LG Web OS Hackathon 2024 gave me early access to the WebOS platform for Flutter, where my team faced the unique challenge of optimizing code to meet platform-specific limitations, such as reducing package dependencies for better performance and optimizing the ML package for this purpose.
 
 ## Getting Started
 
@@ -43,4 +46,6 @@ The game's machine learning capabilities are powered by [**MLDart**](https://git
    ```bash
    flutter run
 
-Enjoy drawing and guessing with Sketch Wizards! 🎨🧙‍♂️✨
+## Live Demo
+
+Access the live demo here: [Sketch Wizards Web Demo](https://noceg43.github.io/sketchWizardWEB/)
